@@ -1,0 +1,450 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --indigo: #1E1B4B;
+    --violet: #7C3AED;
+    --violet-light: #EDE9FE;
+    --chalk: #F8F7FF;
+    --amber: #F59E0B;
+    --amber-light: #FEF3C7;
+    --slate: #64748B;
+    --slate-light: #F1F5F9;
+    --white: #ffffff;
+    --border: #E2E8F0;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--chalk); color: var(--indigo); }
+  
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 64px;
+    background: var(--white); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: var(--indigo); letter-spacing: -0.5px; }
+  .logo span { color: var(--violet); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 14px; color: var(--slate); text-decoration: none; font-weight: 500; }
+  .nav-links a:hover { color: var(--violet); }
+  .nav-ctas { display: flex; gap: 12px; align-items: center; }
+  .btn-ghost { padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; background: transparent; color: var(--indigo); font-family: 'Inter', sans-serif; }
+  .btn-ghost:hover { border-color: var(--violet); color: var(--violet); }
+  .btn-primary { padding: 8px 18px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; background: var(--violet); color: white; font-family: 'Inter', sans-serif; }
+  .btn-primary:hover { background: #6D28D9; }
+
+  .hero {
+    padding: 80px 5% 0;
+    background: var(--white);
+    overflow: hidden;
+  }
+  .hero-content { max-width: 640px; margin: 0 auto; text-align: center; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--violet-light); color: var(--violet);
+    font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 24px;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; background: var(--violet); border-radius: 50%; }
+  h1 {
+    font-family: 'Syne', sans-serif; font-size: clamp(36px, 5vw, 58px); font-weight: 800;
+    line-height: 1.1; letter-spacing: -1.5px; color: var(--indigo); margin-bottom: 20px;
+  }
+  h1 em { font-style: normal; color: var(--violet); }
+  .hero-sub { font-size: 17px; color: var(--slate); line-height: 1.7; margin-bottom: 36px; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; margin-bottom: 64px; flex-wrap: wrap; }
+  .btn-big { padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+  .btn-big-primary { background: var(--violet); color: white; border: none; }
+  .btn-big-primary:hover { background: #6D28D9; }
+  .btn-big-secondary { background: transparent; color: var(--indigo); border: 1.5px solid var(--border); }
+  .btn-big-secondary:hover { border-color: var(--violet); color: var(--violet); }
+
+  .ticker-wrap {
+    width: 100%; overflow: hidden;
+    padding: 24px 0 0;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+  .ticker-track {
+    display: flex; gap: 16px;
+    animation: ticker 32s linear infinite;
+    width: max-content;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .skill-card {
+    background: var(--chalk); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px 20px; min-width: 220px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .skill-card-top { display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .av-v { background: #EDE9FE; color: #5B21B6; }
+  .av-a { background: #D1FAE5; color: #065F46; }
+  .av-b { background: #FEE2E2; color: #991B1B; }
+  .av-c { background: #DBEAFE; color: #1E3A5F; }
+  .av-d { background: #FEF3C7; color: #92400E; }
+  .av-e { background: #FCE7F3; color: #831843; }
+  .skill-name { font-weight: 600; font-size: 13px; color: var(--indigo); }
+  .skill-uni { font-size: 12px; color: var(--slate); }
+  .skill-tag {
+    display: inline-block; background: var(--violet-light); color: var(--violet);
+    font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+    width: fit-content;
+  }
+  .skill-price { font-size: 13px; font-weight: 600; color: var(--indigo); }
+  .skill-price span { font-weight: 400; color: var(--slate); }
+  .stars { font-size: 12px; color: var(--amber); letter-spacing: 1px; }
+
+  section { padding: 80px 5%; }
+
+  .section-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--violet); margin-bottom: 12px; }
+  h2 { font-family: 'Syne', sans-serif; font-size: clamp(26px, 3vw, 38px); font-weight: 800; letter-spacing: -1px; color: var(--indigo); line-height: 1.2; }
+  .section-sub { font-size: 16px; color: var(--slate); margin-top: 12px; line-height: 1.7; max-width: 500px; }
+
+  .categories-section { background: var(--white); }
+  .cat-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+  .cat-card {
+    background: var(--chalk); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 16px; text-align: center; cursor: pointer; transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .cat-card:hover { border-color: var(--violet); background: var(--violet-light); transform: translateY(-2px); }
+  .cat-icon { font-size: 26px; }
+  .cat-title { font-weight: 600; font-size: 13px; color: var(--indigo); }
+  .cat-count { font-size: 12px; color: var(--slate); }
+
+  .how-section { background: var(--chalk); }
+  .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; margin-top: 48px; }
+  .how-card { position: relative; }
+  .how-num {
+    font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800;
+    color: var(--violet-light); line-height: 1; margin-bottom: 16px;
+  }
+  .how-title { font-weight: 700; font-size: 17px; color: var(--indigo); margin-bottom: 8px; font-family: 'Syne', sans-serif; }
+  .how-desc { font-size: 14px; color: var(--slate); line-height: 1.7; }
+
+  .featured-section { background: var(--white); }
+  .feat-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+  .link-text { font-size: 14px; font-weight: 600; color: var(--violet); text-decoration: none; cursor: pointer; }
+  .link-text:hover { text-decoration: underline; }
+  .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .feat-card {
+    background: var(--chalk); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; cursor: pointer; transition: all 0.2s;
+  }
+  .feat-card:hover { border-color: var(--violet); transform: translateY(-3px); }
+  .feat-card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .feat-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 800;
+  }
+  .feat-name { font-weight: 700; font-size: 15px; color: var(--indigo); font-family: 'Syne', sans-serif; }
+  .feat-uni { font-size: 12px; color: var(--slate); margin-top: 2px; }
+  .feat-skill { font-size: 14px; color: var(--slate); line-height: 1.6; margin-bottom: 16px; }
+  .feat-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid var(--border); }
+  .feat-price { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--indigo); }
+  .feat-price small { font-size: 12px; font-weight: 400; color: var(--slate); font-family: 'Inter', sans-serif; }
+  .feat-rating { display: flex; align-items: center; gap: 4px; font-size: 13px; color: var(--slate); }
+  .star-fill { color: var(--amber); }
+  .feat-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag-pill {
+    font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
+    background: var(--violet-light); color: var(--violet);
+  }
+  .tag-pill.green { background: #D1FAE5; color: #065F46; }
+  .tag-pill.amber { background: var(--amber-light); color: #92400E; }
+
+  .cta-section {
+    background: var(--indigo); padding: 80px 5%;
+    text-align: center; overflow: hidden; position: relative;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 500px; border-radius: 50%;
+    background: rgba(124,58,237,0.25); pointer-events: none;
+  }
+  .cta-section h2 { color: white; margin-bottom: 16px; position: relative; }
+  .cta-section p { color: rgba(255,255,255,0.65); font-size: 17px; margin-bottom: 36px; position: relative; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+  .btn-amber { background: var(--amber); color: var(--indigo); border: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; }
+  .btn-amber:hover { background: #FBBF24; }
+  .btn-outline-white { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.35); padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+  .btn-outline-white:hover { border-color: rgba(255,255,255,0.7); }
+
+  .stats-bar { background: var(--violet); padding: 28px 5%; display: flex; justify-content: center; gap: 0; }
+  .stat-item { flex: 1; max-width: 200px; text-align: center; padding: 0 20px; }
+  .stat-item + .stat-item { border-left: 1px solid rgba(255,255,255,0.2); }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: white; }
+  .stat-lbl { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+
+  footer {
+    background: var(--indigo); padding: 40px 5% 28px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; margin-bottom: 32px; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: white; }
+  .footer-logo span { color: var(--amber); }
+  .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+  .footer-links { display: flex; gap: 48px; flex-wrap: wrap; }
+  .footer-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
+  .footer-col a { display: block; font-size: 14px; color: rgba(255,255,255,0.65); text-decoration: none; margin-bottom: 8px; }
+  .footer-col a:hover { color: white; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .footer-copy { font-size: 13px; color: rgba(255,255,255,0.35); }
+  .footer-socials { display: flex; gap: 12px; }
+  .footer-socials a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; font-weight: 500; }
+  .footer-socials a:hover { color: white; }
+  .badge-univ { background: rgba(124,58,237,0.18); color: #C4B5FD; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">UniLink — homepage for a university student skills marketplace</h2>
+
+<nav>
+  <div class="logo">Uni<span>Link</span></div>
+  <div class="nav-links">
+    <a href="#">Browse Skills</a>
+    <a href="#">Categories</a>
+    <a href="#">How it works</a>
+    <a href="#">For universities</a>
+  </div>
+  <div class="nav-ctas">
+    <button class="btn-ghost">Log in</button>
+    <button class="btn-primary">Post a skill</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> Exclusively for university students</div>
+    <h1>Hire student talent.<br><em>Build your portfolio.</em></h1>
+    <p class="hero-sub">Connect with skilled students at your university. Get projects done, or earn money doing what you're already good at.</p>
+    <div class="hero-actions">
+      <button class="btn-big btn-big-primary">Find a skill</button>
+      <button class="btn-big btn-big-secondary">Offer your skills</button>
+    </div>
+  </div>
+
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker">
+    </div>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">4,200+</div><div class="stat-lbl">Student profiles</div></div>
+  <div class="stat-item"><div class="stat-num">38</div><div class="stat-lbl">Universities</div></div>
+  <div class="stat-item"><div class="stat-num">12,000+</div><div class="stat-lbl">Sessions booked</div></div>
+  <div class="stat-item"><div class="stat-num">4.9 ★</div><div class="stat-lbl">Average rating</div></div>
+</div>
+
+<section class="categories-section">
+  <div class="cat-header">
+    <div>
+      <div class="section-label">Explore</div>
+      <h2>Find the right skill</h2>
+      <p class="section-sub">From code to creativity — students offer real, useful expertise.</p>
+    </div>
+    <a class="link-text">View all categories →</a>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card"><div class="cat-icon">💻</div><div class="cat-title">Web Dev</div><div class="cat-count">340 students</div></div>
+    <div class="cat-card"><div class="cat-icon">🎨</div><div class="cat-title">Design & UI</div><div class="cat-count">210 students</div></div>
+    <div class="cat-card"><div class="cat-icon">📊</div><div class="cat-title">Data & Analytics</div><div class="cat-count">180 students</div></div>
+    <div class="cat-card"><div class="cat-icon">✍️</div><div class="cat-title">Writing & Editing</div><div class="cat-count">150 students</div></div>
+    <div class="cat-card"><div class="cat-icon">📱</div><div class="cat-title">Mobile & Apps</div><div class="cat-count">120 students</div></div>
+    <div class="cat-card"><div class="cat-icon">🎬</div><div class="cat-title">Video & Media</div><div class="cat-count">95 students</div></div>
+    <div class="cat-card"><div class="cat-icon">📚</div><div class="cat-title">Tutoring</div><div class="cat-count">280 students</div></div>
+    <div class="cat-card"><div class="cat-icon">🔊</div><div class="cat-title">Marketing & Social</div><div class="cat-count">165 students</div></div>
+  </div>
+</section>
+
+<section class="how-section">
+  <div style="text-align: center; max-width: 500px; margin: 0 auto 0;">
+    <div class="section-label">How it works</div>
+    <h2>Simple from start to finish</h2>
+  </div>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <div class="how-title">Browse & search</div>
+      <div class="how-desc">Find students by skill, university, price, or availability. Every profile is verified with a university email.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <div class="how-title">Book a session</div>
+      <div class="how-desc">Pick a time, pay securely, and get a confirmation instantly. No back-and-forth needed.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <div class="how-title">Get it done</div>
+      <div class="how-desc">Work together online or in person. Payment is only released once you're happy with the result.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">04</div>
+      <div class="how-title">Leave a review</div>
+      <div class="how-desc">Your feedback helps other students find the best talent and builds the community's trust.</div>
+    </div>
+  </div>
+</section>
+
+<section class="featured-section">
+  <div class="feat-header">
+    <div>
+      <div class="section-label">Top talent</div>
+      <h2>Featured students</h2>
+    </div>
+    <a class="link-text">Browse all →</a>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-card-top">
+        <div class="feat-avatar av-v">AK</div>
+        <div>
+          <div class="feat-name">Amara Kamau</div>
+          <div class="feat-uni">Computer Science · UoN <span class="badge-univ">Year 3</span></div>
+        </div>
+      </div>
+      <div class="feat-tags">
+        <span class="tag-pill">React</span>
+        <span class="tag-pill">Node.js</span>
+        <span class="tag-pill green">Available now</span>
+      </div>
+      <div class="feat-skill">Builds responsive web apps and REST APIs. Specialises in fast MVPs for student founders.</div>
+      <div class="feat-footer">
+        <div class="feat-price">KSh 800 <small>/ hour</small></div>
+        <div class="feat-rating"><span class="star-fill">★</span> 4.9 · 34 reviews</div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-card-top">
+        <div class="feat-avatar av-c">OJ</div>
+        <div>
+          <div class="feat-name">Omar Juma</div>
+          <div class="feat-uni">Design · Strathmore <span class="badge-univ">Year 2</span></div>
+        </div>
+      </div>
+      <div class="feat-tags">
+        <span class="tag-pill">Figma</span>
+        <span class="tag-pill">Branding</span>
+        <span class="tag-pill amber">Booked today</span>
+      </div>
+      <div class="feat-skill">Creates clean UI mockups and brand identities. Helped 20+ student businesses with their visual presence.</div>
+      <div class="feat-footer">
+        <div class="feat-price">KSh 600 <small>/ hour</small></div>
+        <div class="feat-rating"><span class="star-fill">★</span> 5.0 · 51 reviews</div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-card-top">
+        <div class="feat-avatar av-a">FN</div>
+        <div>
+          <div class="feat-name">Faith Njeri</div>
+          <div class="feat-uni">Statistics · KU <span class="badge-univ">Year 4</span></div>
+        </div>
+      </div>
+      <div class="feat-tags">
+        <span class="tag-pill">Python</span>
+        <span class="tag-pill">Excel</span>
+        <span class="tag-pill green">Available now</span>
+      </div>
+      <div class="feat-skill">Data analysis, visualisation, and research reports. Expert in SPSS and Python for academic projects.</div>
+      <div class="feat-footer">
+        <div class="feat-price">KSh 700 <small>/ hour</small></div>
+        <div class="feat-rating"><span class="star-fill">★</span> 4.8 · 28 reviews</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to get started?</h2>
+  <p>Join thousands of students already earning, learning, and building on UniLink.</p>
+  <div class="cta-buttons">
+    <button class="btn-amber btn-big">Post your skills — it's free</button>
+    <button class="btn-outline-white btn-big">Find a student for your project</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Uni<span>Link</span></div>
+      <div class="footer-tagline">Student talent. Real work.</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="#">Browse skills</a>
+        <a href="#">Post a skill</a>
+        <a href="#">How it works</a>
+        <a href="#">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About us</a>
+        <a href="#">Blog</a>
+        <a href="#">For universities</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Help centre</a>
+        <a href="#">Safety</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 UniLink. All rights reserved.</div>
+    <div class="footer-socials">
+      <a href="#">Twitter</a>
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const cards = [
+  { initials:'TM', av:'av-d', name:'Tendo M.', uni:'Makerere · CS', skill:'Python & ML', price:'KSh 750/hr', stars:'★★★★★', tag:'Data Science' },
+  { initials:'ZK', av:'av-e', name:'Zara Kimani', uni:'USIU · Media', skill:'Video Editing', price:'KSh 500/hr', stars:'★★★★★', tag:'Video & Media' },
+  { initials:'BS', av:'av-b', name:'Brian Simiyu', uni:'UoN · Business', skill:'Business Plans', price:'KSh 400/hr', stars:'★★★★☆', tag:'Writing' },
+  { initials:'AW', av:'av-a', name:'Asha Waweru', uni:'Strathmore · Fin', skill:'Excel Modelling', price:'KSh 650/hr', stars:'★★★★★', tag:'Finance' },
+  { initials:'DM', av:'av-c', name:'David Muli', uni:'KU · IT', skill:'WordPress Sites', price:'KSh 600/hr', stars:'★★★★★', tag:'Web Dev' },
+  { initials:'PN', av:'av-v', name:'Priya Nair', uni:'UoN · English', skill:'Copywriting & SEO', price:'KSh 450/hr', stars:'★★★★☆', tag:'Writing' },
+  { initials:'JO', av:'av-d', name:'James Ochieng', uni:'Egerton · Agri', skill:'Research & Reports', price:'KSh 350/hr', stars:'★★★★★', tag:'Research' },
+  { initials:'LN', av:'av-e', name:'Lena Njuguna', uni:'JKUAT · IT', skill:'Android Apps', price:'KSh 900/hr', stars:'★★★★★', tag:'Mobile Dev' },
+];
+
+function makeCard(c) {
+  return `<div class="skill-card">
+    <div class="skill-card-top">
+      <div class="avatar ${c.av}">${c.initials}</div>
+      <div>
+        <div class="skill-name">${c.name}</div>
+        <div class="skill-uni">${c.uni}</div>
+      </div>
+    </div>
+    <span class="skill-tag">${c.tag}</span>
+    <div style="font-size:13px;color:var(--slate);">${c.skill}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="skill-price">${c.price}</div>
+      <div class="stars">${c.stars}</div>
+    </div>
+  </div>`;
+}
+
+const ticker = document.getElementById('ticker');
+const doubled = [...cards, ...cards];
+ticker.innerHTML = doubled.map(makeCard).join('');
+</script>

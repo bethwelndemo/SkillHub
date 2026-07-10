@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Leave Review – SkillHub{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card auth-card-wide">
+
+        <h1>Leave a Review</h1>
+
+        <p class="auth-sub">
+            {{ booking.title }}
+            <br>
+            <strong>{{ booking.provider_name }}</strong>
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category,message in messages %}
+                    <p class="form-message {{ category }}">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <div class="form-group">
+
+                <label>Your Rating</label>
+
+                <div class="star-rating">
+
+                    <input type="radio"
+                           id="star5"
+                           name="rating"
+                           value="5"
+                           required>
+
+                    <label for="star5">&#9733;</label>
+
+                    <input type="radio"
+                           id="star4"
+                           name="rating"
+                           value="4">
+
+                    <label for="star4">&#9733;</label>
+
+                    <input type="radio"
+                           id="star3"
+                           name="rating"
+                           value="3">
+
+                    <label for="star3">&#9733;</label>
+
+                    <input type="radio"
+                           id="star2"
+                           name="rating"
+                           value="2">
+
+                    <label for="star2">&#9733;</label>
+
+                    <input type="radio"
+                           id="star1"
+                           name="rating"
+                           value="1">
+
+                    <label for="star1">&#9733;</label>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Comment</label>
+
+                <textarea
+                    name="comment"
+                    rows="5"
+                    placeholder="Tell others about your experience..."></textarea>
+
+            </div>
+
+            <button
+                class="btn btn-primary btn-block"
+                type="submit">
+
+                Submit Review
+
+            </button>
+
+        </form>
+
+    </div>
+</section>
+{% endblock %}

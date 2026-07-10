@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Browse Skills – SkillHub{% endblock %}
+
+{% block content %}
+<section class="search-page">
+  <div class="search-header">
+    <h1>Browse Skills</h1>
+    <p>Verified Kabarak University students, ready to help.</p>
+    <form class="search-form" method="GET" action="{{ url_for('main.search') }}">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search skills, e.g. React, Figma, Python…" class="search-input">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+  </div>
+
+ 
+  <div class="cat-filters">
+    <a href="{{ url_for('main.search', q=query) }}"
+      class="cat-pill {% if not selected_category %}active{% endif %}">All</a>
+    
+    {% for cat in categories %}
+    <a href="{{ url_for('main.search', q=query, category=cat.slug) }}"
+      class="cat-pill {% if selected_category == cat.slug %}active{% endif %}">
+      
+      <i class="{{ cat.icon }}"></i> {{ cat.name }}
+      
+    </a>
+    {% endfor %}
+  </div>
+
+  {% if results %}
+  <div class="results-count">{{ results|length }} result{{ 's' if results|length != 1 }}</div>
+  <div class="feat-grid">
+    {% for s in results %}
+    <div class="feat-card">
+      <div class="feat-card-top">
+        <div class="avatar avatar-{{ loop.index % 6 }}">
+          {{ s.full_name[0] }}{{ s.full_name.split(' ')[1][0] if s.full_name.split(' ')|length > 1 else '' }}
+        </div>
+        <div>
+          <div class="feat-name">{{ s.full_name }}</div>
+          <div class="feat-uni">{{ s.course }} &middot; Year {{ s.year_of_study }}</div>
+        </div>
+      </div>
+      <div class="feat-tags">
+        <span class="tag-pill">{{ s.category_name }}</span>
+        {% if s.tags %}
+          {% for tag in s.tags.split(',')[:2] %}
+            <span class="tag-pill">{{ tag.strip() }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <p class="feat-skill">{{ s.title }}</p>
+      <p class="feat-desc">{{ s.description[:100] }}{% if s.description|length > 100 %}…{% endif %}</p>
+      <div class="feat-footer">
+        <div class="feat-price">KSh {{ "%.0f"|format(s.price_per_hour) }} <small>/ hr</small></div>
+        <div class="feat-rating">
+          &#9733;
+          {% if s.avg_rating %}{{ s.avg_rating }}{% else %}New{% endif %}
+        </div>
+      </div>
+      <a href="{{ url_for('skills_bp.detail', skill_id=s.skill_id) }}" class="btn btn-primary btn-block mt-8">View &amp; Book</a>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <h3>No skills found</h3>
+    <p>Try a different search term or category.</p>
+    <a href="{{ url_for('main.search') }}" class="btn btn-primary">Clear filters</a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

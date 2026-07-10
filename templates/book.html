@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Book {{ skill.provider_name }} – SkillHub{% endblock %}
+{% block content %}
+<section class="auth-page">
+  <div class="auth-card auth-card-wide">
+    <h1>Book a Session</h1>
+    <p class="auth-sub">{{ skill.title }} with <strong>{{ skill.provider_name }}</strong></p>
+    <div class="booking-summary">
+      <span class="tag-pill">{{ skill.category_name }}</span>
+      <span class="booking-rate">KSh {{ "%.0f"|format(skill.price_per_hour) }} / hour</span>
+    </div>
+    <form method="POST" action="{{ url_for('bookings_bp.book', skill_id=skill.id) }}" id="bookingForm">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form-group">
+        <label>Number of Hours</label>
+        <input type="number" name="hours" id="hoursInput" min="0.5" max="20" step="0.5" value="1" required>
+      </div>
+      <div class="form-group">
+        <label>Preferred Date &amp; Time</label>
+        <input type="datetime-local" id="scheduledAt" name="scheduled_at" required>
+      </div>
+      <div class="form-group">
+        <label>Notes <small>(optional)</small></label>
+        <textarea name="notes" rows="3" placeholder="Describe what you need help with…"></textarea>
+      </div>
+
+      <div class="total-display">
+        Total: <strong id="totalDisplay">KSh {{ "%.0f"|format(skill.price_per_hour) }}</strong>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Submit Booking Request</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<!-- <script>
+  const rate = parseFloat("{{ skill.price_per_hour | default(0) }}");
+  document.getElementById('hoursInput').addEventListener('input', function() {
+    const total = (parseFloat(this.value) || 0) * rate;
+    document.getElementById('totalDisplay').textContent = 'KSh ' + Math.round(total).toLocaleString();
+  });
+</script> -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const hoursInput = document.getElementById("hoursInput");
+    const totalDisplay = document.getElementById("totalDisplay");
+
+    if (!hoursInput || !totalDisplay) {
+        console.error("Booking elements not found.");
+        return;
+    }
+
+    const rate = parseFloat("{{ skill.price_per_hour }}");
+
+    function updateTotal() {
+        const hours = parseFloat(hoursInput.value) || 0;
+        const total = hours * rate;
+
+        totalDisplay.textContent = "KSh " + Math.round(total).toLocaleString();
+    }
+
+    updateTotal();
+
+    hoursInput.addEventListener("input", updateTotal);
+
+    const scheduledAt = document.getElementById("scheduledAt");
+
+const now = new Date();
+
+// Round to the next 5 minutes
+now.setMinutes(Math.ceil(now.getMinutes() / 5) * 5);
+now.setSeconds(0);
+now.setMilliseconds(0);
+
+scheduledAt.min = now.toISOString().slice(0,16);
+
+});
+</script>
+{% endblock %}

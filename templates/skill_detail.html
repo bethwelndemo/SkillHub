@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ skill.title }} – SkillHub{% endblock %}
+
+{% block content %}
+<section class="detail-page">
+  <div class="detail-grid">
+
+    <!-- LEFT: skill info -->
+    <div class="detail-main">
+      <div class="breadcrumb"><a href="{{ url_for('main.index') }}">Home</a> &rsaquo; <a href="{{ url_for('main.search') }}">Browse</a> &rsaquo; {{ skill.title }}</div>
+      <h1 class="detail-title">{{ skill.title }}</h1>
+      <div class="detail-meta">
+        <span class="tag-pill">{{ skill.category_name }}</span>
+        {% if skill.tags %}
+          {% for tag in skill.tags.split(',') %}
+            <span class="tag-pill">{{ tag.strip() }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+      {% if total_reviews > 0 %}
+      <div class="detail-rating">
+          ★ {{ avg_rating }} · {{ total_reviews }} review{{ 's' if total_reviews != 1 }}
+      </div>
+      {% else %}
+      <div class="detail-rating">
+          ☆ No reviews yet
+      </div>
+      {% endif %}
+
+      <div class="detail-section">
+        <h3>About this service</h3>
+        <p>{{ skill.description }}</p>
+      </div>
+
+      <!-- Reviews -->
+      <div class="detail-section">
+        <h3>Reviews ({{ reviews|length }})</h3>
+        {% if reviews %}
+          {% for r in reviews %}
+          <div class="review-card">
+            <div class="review-top">
+              <div class="review-author">{{ r.full_name }}</div>
+              <div class="review-stars">
+                {% for i in range(r.rating) %}&#9733;{% endfor %}{% for i in range(5 - r.rating) %}&#9734;{% endfor %}
+              </div>
+            </div>
+            {% if r.comment %}<p class="review-text">{{ r.comment }}</p>{% endif %}
+            <div class="review-date">{{ r.created_at.strftime('%d %b %Y') }}</div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="empty-msg">No reviews yet. Be the first to book this skill!</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- RIGHT: booking card -->
+    <div class="detail-sidebar">
+      <div class="booking-card">
+        <div class="booking-price">KSh {{ "%.0f"|format(skill.price_per_hour) }} <span>/ hour</span></div>
+
+        <div class="provider-info">
+          <div class="avatar avatar-1 avatar-md">
+            {{ skill.full_name[0] }}{{ skill.full_name.split(' ')[1][0] if skill.full_name.split(' ')|length > 1 else '' }}
+          </div>
+          <div>
+            <div class="feat-name">{{ skill.full_name }}</div>
+            <div class="feat-uni">{{ skill.course }} &middot; Year {{ skill.year_of_study }}</div>
+          </div>
+        </div>
+
+        {% if skill.bio %}
+        <p class="provider-bio">{{ skill.bio }}</p>
+        {% endif %}
+
+        {% if current_user.is_authenticated %}
+          {% if current_user.id != skill.user_id %}
+            <a href="{{ url_for('bookings_bp.book', skill_id=skill.id) }}" class="btn btn-primary btn-block">Book Now</a>
+          {% else %}
+            <p class="own-skill-note">This is your own skill listing.</p>
+          {% endif %}
+        {% else %}
+          <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-block">Log in to Book</a>
+          <p class="signup-hint">Don't have an account? <a href="{{ url_for('auth.register') }}">Sign up free</a></p>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

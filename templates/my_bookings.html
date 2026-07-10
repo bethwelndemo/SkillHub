@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}My Bookings – SkillHub{% endblock %}
+
+{% block content %}
+<section class="bookings-page">
+  <h1>My Bookings</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <p class="form-message {{ category }}">
+          {{ message }}
+        </p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('client', event)">
+      Sessions I Booked
+    </button>
+
+    <button class="tab-btn" onclick="showTab('provider', event)">
+      Requests I Received
+    </button>
+  </div>
+
+  <div id="tab-client" class="tab-content">
+    {% if as_client %}
+    <div class="bookings-list">
+      {% for b in as_client %}
+      <div class="booking-row">
+        <div class="booking-info">
+          <div class="booking-title">{{ b.skill_title }}</div>
+          <div class="booking-meta">{{ b.category_name }} &middot; {{ b.provider_name }} &middot; {{ b.hours }}hr(s)</div>
+          {% if b.scheduled_at %}
+          <div class="booking-time">&#128337; {{ b.scheduled_at.strftime('%d %b %Y, %H:%M') }}</div>
+          {% endif %}
+        </div>
+        <div class="booking-right">
+          <div class="booking-amount">KSh {{ "%.0f"|format(b.total_amount) }}</div>
+          <span class="status-badge status-{{ b.status }}">{{ b.status.title() }}</span>
+          {% if b.status == 'completed' and not b.reviewed %}
+          <div class="action-btns">
+              <a href="{{ url_for('reviews_bp.add_review', booking_id=b.id) }}"
+                class="btn btn-primary btn-sm">
+                  ⭐ Leave Review
+              </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">📅</div>
+      <p>You haven't booked any sessions yet.</p>
+      <a href="{{ url_for('main.search') }}" class="btn btn-primary">Browse Skills</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <div id="tab-provider" class="tab-content" style="display: none;">
+    {% if as_provider %}
+    <div class="bookings-list">
+      {% for b in as_provider %}
+      <div class="booking-row">
+        <div class="booking-info">
+          <div class="booking-title">{{ b.skill_title }}</div>
+          <div class="booking-meta">From: <strong>{{ b.client_name }}</strong> &middot; {{ b.hours }}hr(s)</div>
+          {% if b.notes %}<div class="booking-notes">"{{ b.notes }}"</div>{% endif %}
+        </div>
+        <div class="booking-right">
+          <div class="booking-amount">KSh {{ "%.0f"|format(b.total_amount) }}</div>
+          <span class="status-badge status-{{ b.status }}">{{ b.status.title() }}</span>
+          {% if b.status == 'pending' %}
+          <div class="action-btns">
+            <a href="{{ url_for('bookings_bp.update_status', booking_id=b.id, status='confirmed') }}" class="btn btn-primary btn-sm">Confirm</a>
+            <a href="{{ url_for('bookings_bp.update_status', booking_id=b.id, status='cancelled') }}" class="btn btn-ghost btn-sm">Decline</a>
+          </div>
+          {% elif b.status == 'confirmed' %}
+          <div class="action-btns">
+            <a href="{{ url_for('bookings_bp.update_status', booking_id=b.id, status='completed') }}" class="btn btn-primary btn-sm">Mark Complete</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">📬</div>
+      <p>No booking requests yet.</p>
+      <a href="{{ url_for('skills_bp.post_skill') }}" class="btn btn-primary">Post a Skill</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  function showTab(tab, event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    // Hide all tab content panes
+    document.querySelectorAll('.tab-content').forEach(el => {
+      el.style.display = 'none';
+    });
+
+    // Reset active buttons state
+    document.querySelectorAll('.tab-btn').forEach(el => {
+      el.classList.remove('active');
+    });
+
+    // Make the targeted container layout block visible
+    const targetTab = document.getElementById('tab-' + tab);
+    if (targetTab) {
+      targetTab.style.display = 'block';
+    }
+
+    // Highlight the active selection tab button
+    if (event && event.currentTarget) {
+      event.currentTarget.classList.add('active');
+    }
+  }
+
+  // Force clean standard view states once parsed
+  document.addEventListener("DOMContentLoaded", function() {
+    const clientTab = document.getElementById('tab-client');
+    const providerTab = document.getElementById('tab-provider');
+    
+    if (clientTab) clientTab.style.display = 'block';
+    if (providerTab) providerTab.style.display = 'none';
+  });
+</script>
+{% endblock %}

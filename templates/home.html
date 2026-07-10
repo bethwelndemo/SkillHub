@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}SkillHub – Kabarak University{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Exclusively for Kabarak University students</div>
+    <h1>Hire student talent.<br><em>Build your portfolio.</em></h1>
+    <p class="hero-sub">
+      Connect with skilled students at the university. Get projects done, or earn money doing what you're already good at.
+    </p>
+    <div class="hero-actions">
+      <a href="{{ url_for('main.search') }}" class="btn-big btn-big-primary">Find a skill</a>
+      <a href="{{ url_for('skills_bp.post_skill') }}" class="btn-big btn-big-secondary">Offer your skills</a>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">{{ stats.students }}+</div>
+    <div class="stat-lbl">Student profiles</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">{{ stats.bookings }}</div>
+    <div class="stat-lbl">Projects done</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">{{ stats.bookings * 100 }}+</div>
+    <div class="stat-lbl">Sessions booked</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">{{ stats.rating }} ★</div>
+    <div class="stat-lbl">Average rating</div>
+  </div>
+</div>
+
+<section id="categories" class="categories-section">
+  <div class="cat-header">
+    <div>
+      <div class="section-label">Explore</div>
+      <h2>Find the right skill</h2>
+      <p class="section-sub">From code to creativity — students offer real, useful expertise.</p>
+    </div>
+    <a href="{{ url_for('main.search') }}" class="link-text">View all →</a>
+  </div>
+  <div class="cat-grid">
+    <!-- {% for c in categories %}
+    <div class="cat-card">
+      <div class="cat-icon"><i class="{{ c.icon }}"></i></div>
+      <div class="cat-title">{{ c.name }}</div>
+      <div class="cat-count">{{ c.skill_count }} students</div>
+    </div>
+    {% endfor %} -->
+    {% for c in categories %}
+    <a href="{{ url_for('main.search', category=c.slug) }}" class="cat-card-link">
+        <div class="cat-card">
+            <div class="cat-icon">
+                <i class="{{ c.icon }}"></i>
+            </div>
+
+            <div class="cat-title">{{ c.name }}</div>
+
+            <div class="cat-count">
+                {{ c.skill_count }} students
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="how" class="how-section">
+  <div style="text-align:center; max-width:500px; margin:auto;">
+    <div class="section-label">How it works</div>
+    <h2>Simple from start to finish</h2>
+  </div>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <div class="how-title">Browse & search</div>
+      <div class="how-desc">Find students by skill, price, or category.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <div class="how-title">Book a session</div>
+      <div class="how-desc">Pick a time and confirm instantly.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <div class="how-title">Get it done</div>
+      <div class="how-desc">Work together online or in person.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">04</div>
+      <div class="how-title">Leave a review</div>
+      <div class="how-desc">Help build trust in the community.</div>
+    </div>
+  </div>
+</section>
+
+<section class="featured-section">
+  <div class="feat-header">
+    <div>
+      <div class="section-label">Top talent</div>
+      <h2>Featured students</h2>
+    </div>
+    <a href="{{ url_for('main.search') }}" class="link-text">Browse all →</a>
+  </div>
+  <div class="feat-grid">
+    {% for f in featured %}
+    <div class="feat-card">
+      <div class="feat-card-top">
+        <div class="feat-avatar">{{ f.full_name[:2] }}</div>
+        <div>
+          <div class="feat-name">{{ f.full_name }}</div>
+          <div class="feat-uni">
+            {{ f.course }} · {{ f.category_name }}
+            <span class="badge-univ">Year {{ f.year_of_study }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="feat-tags">
+        <span class="tag-pill">{{ f.title }}</span>
+        <span class="tag-pill green">Available</span>
+      </div>
+      <div class="feat-skill">
+        {{ f.description or "Skilled student offering services." }}
+      </div>
+      <div class="feat-footer">
+        <div class="feat-price">KSh {{ f.price_per_hour }} <small>/ hour</small></div>
+        <div class="feat-rating">★ 4.8</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to get started?</h2>
+  <p>Join students already earning and learning on SkillHub.</p>
+  <div class="cta-buttons">
+    <a href="{{ url_for('skills_bp.post_skill') }}" class="btn-amber btn-big">Post your skills — it's free</a>
+    <a href="{{ url_for('main.search') }}" class="btn-outline-white btn-big">Find a student for your project</a>
+  </div>
+</section>
+{% endblock %}
