@@ -30,10 +30,10 @@ limiter = Limiter(
 )
 
 app.config['SECRET_KEY'] = 'skillhub-secret'
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'skillhub'
+app.config['MYSQL_HOST'] = 'crotchet.mysql.pythonanywhere-services.com'
+app.config['MYSQL_USER'] = 'crotchet'
+app.config['MYSQL_PASSWORD'] = 'd37f705c269'
+app.config['MYSQL_DB'] = 'crotchet$skillhub'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
