@@ -120,17 +120,31 @@
           </div>
         </div>
       </div>
+
       <div class="feat-tags">
         <span class="tag-pill">{{ f.title }}</span>
         <span class="tag-pill green">Available</span>
       </div>
+
       <div class="feat-skill">
         {{ f.description or "Skilled student offering services." }}
       </div>
+
       <div class="feat-footer">
-        <div class="feat-price">KSh {{ f.price_per_hour }} <small>/ hour</small></div>
-        <div class="feat-rating">★ 4.8</div>
+        <div class="feat-price">
+          KSh {{ "%.0f"|format(f.price_per_hour) }}
+          <small>/ hour</small>
+        </div>
+
+        <div class="feat-rating">
+          ★ {{ f.avg_rating if f.avg_rating else "New" }}
+        </div>
       </div>
+
+      <a href="{{ url_for('skills_bp.detail', skill_id=f.id) }}"
+        class="btn btn-primary btn-block mt-8">
+          View &amp; Book
+      </a>
     </div>
     {% endfor %}
   </div>

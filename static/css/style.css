@@ -7,61 +7,143 @@ body {
      background: #F8F7FF;
      color: #1E1B4B;
     }
-.nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    
+.nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
 }
+
 nav{
-    display: flex;
-    padding: 0 5%;
-    border-bottom: 1px solid #E2E8F0;
-    position: sticky;
-    align-items: center;
-    justify-content: space-between;
-    top: 0;
-    z-index: 100;
-    height: 64px;
-    background: #F8F7FF;
+    display:flex;
+    padding:0 5%;
+    border-bottom:1px solid #E2E8F0;
+    position:sticky;
+    top:0;
+    z-index:100;
+    height:64px;
+    background:#F8F7FF;
+    align-items:center;
 }
 
 .logo{
-    font-family: 'syne', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    color: #1E1B4B;
-    letter-spacing: -0.5px;
-    text-decoration: none;
+    font-family:'Syne',sans-serif;
+    font-weight:800;
+    font-size:22px;
+    color:#1E1B4B;
+    text-decoration:none;
+}
 
+.logo span{
+    color:#7C3AED;
 }
-.logo span { 
-    color: #7C3AED 
+
+.menu-toggle{
+    display:none;
+    background:none;
+    border:none;
+    font-size:24px;
+    cursor:pointer;
+    color:#1E1B4B;
 }
+
+.nav-menu{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex:1;
+    margin-left:40px;
+}
+
 .nav-links{
-    display: flex;
-    gap: 32px;
-    align-items: center; 
+    display:flex;
+    gap:32px;
+    align-items:center;
 }
 
-.nav-links a { 
-    font-size: 14px;
-    color: #64748B;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 15px;
+.nav-links a{
+    color:#64748B;
+    text-decoration:none;
+    font-weight:500;
+    padding:15px;
 }
 
-.nav-links a:hover {
-    color: #7C3AED;
-
+.nav-links a:hover{
+    color:#7C3AED;
 }
 
 .nav-ctas{
-    display: flex;
-    gap: 12px;
-    align-items: center;
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+    nav{
+        height:auto;
+        padding:15px 5%;
+        overflow:visible;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .nav-inner{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:nowrap;
+        position:relative;
+    }
+
+    .nav-menu{
+        display:none;
+        position:absolute;
+        top:100%;
+        left:0;
+        width:100%;
+        background:#F8F7FF;
+        border-top:1px solid #E2E8F0;
+        padding:20px;
+        box-sizing:border-box;
+        flex-direction:column;
+        align-items:flex-start;
+        z-index:999;
+    }
+    .nav-menu.active{
+        display:flex;          /* Show only when hamburger is clicked */
+    }
+
+    .nav-links{
+        display:flex;
+        flex-direction:column;
+        width:100%;
+        gap:0;
+    }
+
+    .nav-links a{
+        width:100%;
+        padding:15px 0;
+    }
+
+    .nav-ctas{
+        display:flex;
+        flex-direction:column;
+        width:100%;
+        gap:10px;
+        margin-top:20px;
+    }
+
+    .nav-ctas a{
+        width:100%;
+        text-align:center;
+    }
+
 }
 .hero-actions {
     display: flex;
@@ -647,6 +729,80 @@ h2 {font-family: 'Syne', sans-serif;
 .own-skill-note { font-size: 14px; color: #64748B; text-align: center; padding: 12px; background: #F8F7FF; border-radius: 8px; }
 .signup-hint    { font-size: 13px; color: #64748B; text-align: center; margin-top: 10px; }
 .signup-hint a  { color: #7C3AED; font-weight: 600; }
+
+/* ===========================
+   Skill Detail Responsive
+=========================== */
+
+@media (max-width: 768px){
+
+    .detail-page{
+        padding:20px 15px;
+    }
+
+    .detail-grid{
+        grid-template-columns:1fr;
+        gap:25px;
+    }
+
+    .detail-main,
+    .detail-sidebar{
+        width:100%;
+        order:-1;
+    }
+
+    .booking-card{
+        position:static;
+        top:auto;
+        width:100%;
+        padding:20px;
+        box-sizing:border-box;
+    }
+
+    .detail-title{
+        font-size:32px;
+        line-height:1.2;
+    }
+
+    .booking-price{
+        font-size:24px;
+    }
+
+    .provider-info{
+        flex-wrap:wrap;
+    }
+
+    .detail-rating{
+        font-size:14px;
+    }
+
+    .breadcrumb{
+        font-size:12px;
+        word-break:break-word;
+    }
+
+    .review-card{
+        width:100%;
+        box-sizing:border-box;
+    }
+
+    .review-top{
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        flex-wrap:wrap;
+        gap:8px;
+    }
+
+    .review-stars{
+        font-size:14px;
+    }
+
+    .btn-block{
+        width:100%;
+    }
+
+}
  
 /* ── Reviews ────────────────────────────────────────── */
 .review-card       { background: #F8F7FF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; margin-bottom: 14px; }

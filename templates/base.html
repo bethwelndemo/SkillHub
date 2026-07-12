@@ -12,22 +12,36 @@
 
 <nav>
   <div class="nav-inner">
-    <a href="{{ url_for('main.index') }}" class="logo">Skill<span>Hub</span></a>
-    <div class="nav-links">
-      <a href="{{ url_for('main.search') }}">Browse Skills</a>
-      <a href="#categories">Categories</a>
-      <a href="#how">How it works</a>
+
+    <a href="{{ url_for('main.index') }}" class="logo">
+      Skill<span>Hub</span>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="nav-menu" id="navMenu">
+
+      <div class="nav-links">
+        <a href="{{ url_for('main.search') }}">Browse Skills</a>
+        <a href="{{ url_for('main.index') }}#categories">Categories</a>
+        <a href="{{ url_for('main.index') }}#how">How it works</a>
+      </div>
+
+      <div class="nav-ctas">
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('skills_bp.post_skill') }}" class="btn btn-primary">Post a skill</a>
+          <a href="{{ url_for('bookings_bp.my_bookings') }}" class="btn btn-ghost">My bookings</a>
+          <a href="{{ url_for('auth.logout') }}" class="btn btn-ghost">Log out</a>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}" class="btn btn-ghost">Log in</a>
+          <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Sign up</a>
+        {% endif %}
+      </div>
+
     </div>
-    <div class="nav-ctas">
-      {% if current_user.is_authenticated %}
-        <a href="{{ url_for('skills_bp.post_skill') }}" class="btn btn-primary">Post a skill</a>
-        <a href="{{ url_for('bookings_bp.my_bookings') }}" class="btn btn-ghost">My bookings</a>
-        <a href="{{ url_for('auth.logout') }}" class="btn btn-ghost">Log out</a>
-      {% else %}
-        <a href="{{ url_for('auth.login') }}" class="btn btn-ghost">Log in</a>
-        <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Sign up</a>
-      {% endif %}
-    </div>
+
   </div>
 </nav>
 
@@ -65,5 +79,28 @@
   </div>
 </footer>
 {% block extra_js %}{% endblock %}
+
+<script>
+
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+
+menuToggle.addEventListener("click", function(){
+
+    navMenu.classList.toggle("active");
+
+    const icon = menuToggle.querySelector("i");
+
+    if(navMenu.classList.contains("active")){
+        icon.classList.remove("fa-bars");
+        icon.classList.add("fa-xmark");
+    }else{
+        icon.classList.remove("fa-xmark");
+        icon.classList.add("fa-bars");
+    }
+
+});
+
+</script>
 </body>
 </html>
