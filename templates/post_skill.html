@@ -6,6 +6,7 @@
     <h1>Post a Skill</h1>
     <p class="auth-sub">Tell other Kabarak students what you can help with</p>
     <form method="POST" action="{{ url_for('skills_bp.post_skill') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div class="form-group">
         <label>Skill Title</label>
         <input type="text" name="title" placeholder="e.g. React Web App Development" required>
