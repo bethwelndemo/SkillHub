@@ -435,7 +435,7 @@ def post_skill():
         cur.close()
 
         flash("Skill posted successfully!")
-        return redirect(url_for('main.index'))
+        return redirect(url_for('skills_bp.my_skills'))
 
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM categories")
