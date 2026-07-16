@@ -508,6 +508,29 @@ def book(skill_id):
     return render_template('book.html', skill=skill)
 
 
+@skills_bp.route('/my-skills')
+@login_required
+def my_skills():
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT
+            s.*,
+            c.name AS category_name
+        FROM skills s
+        JOIN categories c
+            ON s.category_id = c.id
+        WHERE s.user_id = %s
+        ORDER BY s.id DESC
+    """, (current_user.id,))
+
+    skills = cur.fetchall()
+    cur.close()
+
+    return render_template("my_skills.html", skills=skills)
+
+
 @bookings_bp.route('/my')
 @login_required
 def my_bookings():

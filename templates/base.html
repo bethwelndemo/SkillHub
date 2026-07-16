@@ -33,6 +33,7 @@
         {% if current_user.is_authenticated %}
           <a href="{{ url_for('skills_bp.post_skill') }}" class="btn btn-primary">Post a skill</a>
           <a href="{{ url_for('bookings_bp.my_bookings') }}" class="btn btn-ghost">My bookings</a>
+          <a href="{{ url_for('skills_bp.my_skills') }}">My Skills</a>
           <a href="{{ url_for('auth.logout') }}" class="btn btn-ghost">Log out</a>
         {% else %}
           <a href="{{ url_for('auth.login') }}" class="btn btn-ghost">Log in</a>

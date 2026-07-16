@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}My Skills{% endblock %}
+
+{% block content %}
+
+<section class="my-skills-page">
+
+    <div class="page-header">
+        <h1>My Skills</h1>
+
+        <a href="{{ url_for('skills_bp.post_skill') }}"
+           class="btn btn-primary">
+            + Post New Skill
+        </a>
+    </div>
+
+    {% if skills %}
+
+        <div class="skills-grid">
+
+            {% for skill in skills %}
+
+            <div class="skill-card">
+
+                <h3>{{ skill.title }}</h3>
+
+                <p class="category">
+                    {{ skill.category_name }}
+                </p>
+
+                <p class="description">
+                    {{ skill.description }}
+                </p>
+
+                <h4>
+                    KSh {{ skill.price_per_hour }}/hour
+                </h4>
+
+                <div class="card-actions">
+
+                    <a
+                        href="{{ url_for('skills_bp.edit_skill', skill_id=skill.id) }}"
+                        class="btn btn-secondary">
+                        Edit
+                    </a>
+
+                    <form
+                        action="{{ url_for('skills_bp.delete_skill', skill_id=skill.id) }}"
+                        method="POST"
+                        style="display:inline;">
+
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="return confirm('Delete this skill?')">
+
+                            Delete
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>You haven't posted any skills yet.</p>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
