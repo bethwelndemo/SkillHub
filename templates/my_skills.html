@@ -39,28 +39,34 @@
 
                 <div class="card-actions">
 
-                    <a
-                        href="{{ url_for('skills_bp.edit_skill', skill_id=skill.id) }}"
-                        class="btn btn-secondary">
-                        Edit
-                    </a>
+                <a
+                href="{{ url_for('skills_bp.edit_skill',
+                skill_id=skill.id) }}"
+                class="btn btn-secondary">
 
-                    <form
-                        action="{{ url_for('skills_bp.delete_skill', skill_id=skill.id) }}"
-                        method="POST"
-                        style="display:inline;">
+                Edit
 
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                </a>
 
-                        <button
-                            class="btn btn-danger"
-                            onclick="return confirm('Delete this skill?')">
+                <form
+                method="POST"
+                action="{{ url_for('skills_bp.delete_skill',
+                skill_id=skill.id) }}">
 
-                            Delete
+                <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}">
 
-                        </button>
+                <button
+                class="btn btn-danger"
+                onclick="return confirm('Delete this skill?')">
 
-                    </form>
+                Delete
+
+                </button>
+
+                </form>
 
                 </div>
 

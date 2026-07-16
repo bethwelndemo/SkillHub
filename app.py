@@ -530,6 +530,93 @@ def my_skills():
 
     return render_template("my_skills.html", skills=skills)
 
+@skills_bp.route('/skills/edit/<int:skill_id>', methods=['GET', 'POST'])
+@login_required
+def edit_skill(skill_id):
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT *
+        FROM skills
+        WHERE id=%s AND user_id=%s
+    """, (skill_id, current_user.id))
+
+    skill = cur.fetchone()
+
+    if not skill:
+        cur.close()
+        flash("Skill not found.", "danger")
+        return redirect(url_for("skills_bp.my_skills"))
+
+    cur.execute("SELECT * FROM categories")
+    categories = cur.fetchall()
+
+    if request.method == "POST":
+
+        title = request.form["title"]
+        category = request.form["category_id"]
+        description = request.form["description"]
+        tags = request.form["tags"]
+        price = request.form["price_per_hour"]
+
+        cur.execute("""
+            UPDATE skills
+            SET
+                title=%s,
+                category_id=%s,
+                description=%s,
+                tags=%s,
+                price_per_hour=%s
+            WHERE id=%s
+        """, (
+            title,
+            category,
+            description,
+            tags,
+            price,
+            skill_id
+        ))
+
+        mysql.connection.commit()
+        cur.close()
+
+        flash("Skill updated successfully!", "success")
+
+        return redirect(url_for("skills_bp.my_skills"))
+
+    cur.close()
+
+    return render_template(
+        "edit_skill.html",
+        skill=skill,
+        categories=categories
+    )
+
+
+@skills_bp.route('/skills/delete/<int:skill_id>', methods=['POST'])
+@login_required
+def delete_skill(skill_id):
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        DELETE FROM skills
+        WHERE id=%s
+        AND user_id=%s
+    """, (
+        skill_id,
+        current_user.id
+    ))
+
+    mysql.connection.commit()
+
+    cur.close()
+
+    flash("Skill deleted successfully.", "success")
+
+    return redirect(url_for("skills_bp.my_skills"))
+
 
 @bookings_bp.route('/my')
 @login_required

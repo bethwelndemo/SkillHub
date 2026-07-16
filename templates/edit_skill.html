@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Skill{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+<div class="auth-card auth-card-wide">
+
+<h1>Edit Skill</h1>
+
+<form method="POST">
+
+<input type="hidden"
+       name="csrf_token"
+       value="{{ csrf_token() }}">
+
+<div class="form-group">
+
+<label>Skill Title</label>
+
+<input
+type="text"
+name="title"
+value="{{ skill.title }}"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Category</label>
+
+<select name="category_id" required>
+
+{% for cat in categories %}
+
+<option
+value="{{ cat.id }}"
+{% if cat.id==skill.category_id %}
+selected
+{% endif %}
+>
+
+{{ cat.name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Description</label>
+
+<textarea
+name="description"
+rows="6"
+required>{{ skill.description }}</textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>Tags</label>
+
+<input
+type="text"
+name="tags"
+value="{{ skill.tags }}">
+
+</div>
+
+<div class="form-group">
+
+<label>Price per Hour</label>
+
+<input
+type="number"
+name="price_per_hour"
+value="{{ skill.price_per_hour }}"
+required>
+
+</div>
+
+<button class="btn btn-primary">
+
+Save Changes
+
+</button>
+
+<a
+href="{{ url_for('skills_bp.my_skills') }}"
+class="btn btn-ghost">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+</section>
+
+{% endblock %}
