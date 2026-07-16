@@ -933,6 +933,7 @@ h2 {font-family: 'Syne', sans-serif;
 .btn-danger{
     background:#DC2626;
     color:white;
+    padding: 10px;
 }
 
 .btn-danger:hover{
