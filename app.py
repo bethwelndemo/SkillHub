@@ -259,7 +259,7 @@ def register():
         cur.execute("""
             INSERT INTO users
             (full_name,phone,email,password_hash,course,year_of_study,is_verified)
-            VALUES(%s,%s,%s,%s,%s,%s,%s)
+            VALUES(%s,%s,%s,%s,%s,%s)
         """, (
             full_name,
             email,
