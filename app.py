@@ -218,6 +218,7 @@ def register():
     if request.method == 'POST':
 
         full_name = request.form['full_name'].strip()
+        phone = request.form["phone"]
         email = request.form['email'].strip().lower()
         password = request.form['password']
         confirm_password = request.form['confirm_password']
@@ -257,8 +258,8 @@ def register():
 
         cur.execute("""
             INSERT INTO users
-            (full_name,email,password_hash,course,year_of_study,is_verified)
-            VALUES(%s,%s,%s,%s,%s,%s)
+            (full_name,phone,email,password_hash,course,year_of_study,is_verified)
+            VALUES(%s,%s,%s,%s,%s,%s,%s)
         """, (
             full_name,
             email,
@@ -518,6 +519,8 @@ def my_bookings():
             s.title AS skill_title,
             u.full_name AS provider_name,
             c.name AS category_name,
+            u.phone,
+            u.email,
                 
             EXISTS(
             SELECT 1

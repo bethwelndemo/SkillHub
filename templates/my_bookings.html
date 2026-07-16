@@ -40,6 +40,30 @@
         <div class="booking-right">
           <div class="booking-amount">KSh {{ "%.0f"|format(b.total_amount) }}</div>
           <span class="status-badge status-{{ b.status }}">{{ b.status.title() }}</span>
+          {% if b.status in ['confirmed','completed'] %}
+          <div class="contact-card">
+
+              <strong>Provider Contact</strong>
+
+              <p>
+                  📞 {{ b.phone }}
+              </p>
+
+              <p>
+                  ✉ {{ b.email }}
+              </p>
+
+              <a
+                  href="https://wa.me/254{{ b.phone[1:] }}?text=Hi {{ b.provider_name }}, I booked your {{ b.skill_title }} service on SkillHub."
+                  target="_blank"
+                  class="btn btn-primary btn-sm">
+
+                  Contact on WhatsApp
+
+              </a>
+
+          </div>
+          {% endif %}
           {% if b.status == 'completed' and not b.reviewed %}
           <div class="action-btns">
               <a href="{{ url_for('reviews_bp.add_review', booking_id=b.id) }}"
